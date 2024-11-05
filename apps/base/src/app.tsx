@@ -1,3 +1,10 @@
+/*
+ * @Author: MichLiu
+ * @Date: 2024-11-04 14:41:00
+ * @Description: 
+ * @LastEditTime: 2024-11-05 15:36:10
+ * @LastEditors: MichLiu
+ */
 import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
@@ -131,9 +138,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-console.log('process.env.API_URL', process.env);
+console.log('process.env.API_URL', process.env.BASE_API_URL);
 export const request: RequestConfig = {
-  baseURL: process.env.API_URL,
+  baseURL: process.env.BASE_API_URL,
+  timeout: process.env.REACT_APP_ENV === 'prod' ? 10000 : 30000,
   ...errorConfig,
 };
 

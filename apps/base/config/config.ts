@@ -1,3 +1,10 @@
+/*
+ * @Author: MichLiu
+ * @Date: 2024-11-04 14:40:53
+ * @Description:
+ * @LastEditTime: 2024-11-05 15:29:03
+ * @LastEditors: MichLiu
+ */
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
 import { join } from 'path';
