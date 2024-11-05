@@ -1,0 +1,13 @@
+{
+  "name": "@pkg/config-umi",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@umijs/fabric": "^2.14.1",
+    "@umijs/lint": "^4.1.1",
+    "@umijs/max": "^4.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

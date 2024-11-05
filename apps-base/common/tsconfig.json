@@ -1,5 +1,5 @@
 {
-  "extends": ["./src/config/umi-base.json"],
+  "extends":["@pkg/config-umi/umi-base.json"],
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {

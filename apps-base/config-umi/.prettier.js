@@ -1,3 +1,10 @@
+/*
+ * @Author: MichLiu
+ * @Date: 2024-11-05 10:16:44
+ * @Description: 
+ * @LastEditTime: 2024-11-05 10:16:47
+ * @LastEditors: MichLiu
+ */
 module.exports = {
   singleQuote: true,
   trailingComma: 'all',
