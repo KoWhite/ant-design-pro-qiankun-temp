@@ -121,29 +121,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // 增加一个 loading 的状态
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
+      // 子应用不需要展示配置主题的按钮，主题配置通过主应用统一配置
+
       return (
         <>
           {children}
-          {isDev && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
         </>
       );
     },
     ...initialState?.settings,
   };
 };
-console.log('sub-recharge layout');
 
 /**
  * @name request 配置，可以配置错误处理
