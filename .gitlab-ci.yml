@@ -1,6 +1,7 @@
 # 定义阶段
 stages:
   - install
+  - clean
   - build
   - deploy
 
@@ -19,11 +20,21 @@ install:
   script:
     - pnpm install
 
+# 清理构建目录
+clean:
+  stage: clean
+  script:
+    - rm -rf /dist
+  needs:
+    - install
+
 # 构建
 build-all:
   stage: build
   script:
     - pnpm build:test
+  needs:
+    - clean
 
 # 部署
 deploy-base:
@@ -33,3 +44,5 @@ deploy-base:
   only:
     changes:
       - apps/**/*
+  needs:
+    - build-all
