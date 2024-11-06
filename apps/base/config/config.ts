@@ -2,7 +2,7 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:40:53
  * @Description:
- * @LastEditTime: 2024-11-05 15:29:03
+ * @LastEditTime: 2024-11-05 20:13:51
  * @LastEditors: MichLiu
  */
 // https://umijs.org/config/
@@ -21,6 +21,15 @@ export default defineConfig({
    * @doc https://umijs.org/docs/api/config#hash
    */
   hash: true,
+
+  outputPath: '../../dist',
+
+  // 路径
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+
+  history: {
+    type: 'hash' // 使用 hash 路由模式
+  },
 
   /**
    * @name 兼容性设置
@@ -132,7 +141,7 @@ export default defineConfig({
    */
   headScripts: [
     // 解决首次加载时白屏的问题
-    { src: '/scripts/loading.js', async: true },
+    { src: './scripts/loading.js', async: true },
   ],
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
@@ -171,13 +180,13 @@ export default defineConfig({
    */
   qiankun: {
     master: {
-      apps: [
-        {
-          name: 'sub-recharge',
-          entry: '//localhost:8001', // 子应用1的地址
-        },
-      ],
-      sandbox: { strictStyleIsolation: true }, // 开启严格的样式隔离
+    //   apps: [
+    //     {
+    //       name: 'sub-recharge',
+    //       entry: '//localhost:8001', // 子应用1的地址
+    //     },
+    //   ],
+    //   sandbox: { strictStyleIsolation: true }, // 开启严格的样式隔离
     },
   },
   // qiankun-config-end

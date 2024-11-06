@@ -51,6 +51,8 @@ export async function getInitialState(): Promise<{
   };
 }
 
+console.log('sub-recharge app.tsx');
+
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   // qiankun-config
@@ -143,6 +145,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
+console.log('sub-recharge layout');
+
 /**
  * @name request 配置，可以配置错误处理
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
@@ -171,5 +175,5 @@ export const qiankun = {
   async unmount(props: any) {
       console.log('subAppA unmount ==>', props);
   },
-}
+};
 // qiankun-config-end

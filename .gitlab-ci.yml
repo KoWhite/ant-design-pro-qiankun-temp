@@ -1,26 +1,35 @@
-# 测试环境部署
-deploy-test:
-  stage: deploy
+# 定义阶段
+stages:
+  - install
+  - build
+  - deploy
+
+# 缓存配置
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - apps/*/node_modules/
+    - .turbo
+    - .pnpm-store
+
+# 安装依赖
+install:
+  stage: install
   script:
     - pnpm install
+
+# 构建
+build-all:
+  stage: build
+  script:
     - pnpm build:test
-  only:
-    - develop
 
-# OT环境部署  
-deploy-ot:
+# 部署
+deploy-base:
   stage: deploy
   script:
-    - pnpm install
-    - pnpm build:ot
+    - scp -r apps/base/dist/* user@host1:/path/to/base/
   only:
-    - release
-
-# 生产环境部署
-deploy-prod:
-  stage: deploy
-  script:
-    - pnpm install
-    - pnpm build:online
-  only:
-    - master 
+    changes:
+      - apps/**/*

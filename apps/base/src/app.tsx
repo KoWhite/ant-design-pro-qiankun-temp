@@ -1,8 +1,8 @@
 /*
  * @Author: MichLiu
  * @Date: 2024-11-04 14:41:00
- * @Description: 
- * @LastEditTime: 2024-11-05 15:36:10
+ * @Description:
+ * @LastEditTime: 2024-11-05 19:24:56
  * @LastEditors: MichLiu
  */
 import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
@@ -53,6 +53,8 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
+
+console.log('base app.tsx');
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
@@ -133,12 +135,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
+// console.log('base request');
 /**
  * @name request 配置，可以配置错误处理
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-console.log('process.env.API_URL', process.env.BASE_API_URL);
 export const request: RequestConfig = {
   baseURL: process.env.BASE_API_URL,
   timeout: process.env.REACT_APP_ENV === 'prod' ? 10000 : 30000,
@@ -171,8 +173,8 @@ export const qiankun = {
   apps: [
     {
         name: 'sub-recharge',
-        // entry: entryUrl[REACT_APP_ENV || 'dev'],
-        entry: '//localhost:8001',
+        entry: isDev ? '//localhost:8001' : './sub-recharge',
+        // entry: '//localhost:8001',
         props: {
             isMenu: true,
             qianKunProps: {
