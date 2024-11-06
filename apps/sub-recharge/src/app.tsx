@@ -1,4 +1,4 @@
-import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
+import { Footer, Question, AvatarDropdown, AvatarName } from '@/components';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
@@ -50,7 +50,6 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
-
 console.log('sub-recharge app.tsx');
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -60,13 +59,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   // 如果是加载在主应用中,不展示菜单和头部
   qianKunProp.headerRender = false;
   if (!isMenu) {
-      qianKunProp.menuRender = false;
-      qianKunProp.headerRender = false;
+    qianKunProp.menuRender = false;
+    qianKunProp.headerRender = false;
   }
   // qiankun-config-end
 
   return {
-    actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
+    actionsRender: () => [<Question key="doc" />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -144,7 +143,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ...initialState?.settings,
   };
 };
-
 console.log('sub-recharge layout');
 
 /**
@@ -162,18 +160,18 @@ export const request = {
 export const qiankun = {
   // 应用加载之前
   async bootstrap(props: any) {
-      console.log('subAppA bootstrap ==>', props);
-      if (props) {
-          isMenu = props.isMenu;
-      }
+    console.log('subAppA bootstrap ==>', props);
+    if (props) {
+      isMenu = props.isMenu;
+    }
   },
   // 应用 render 之前触发
   async mount(props: any) {
-      console.log('subAppA mount ==>', props);
+    console.log('subAppA mount ==>', props);
   },
   // 应用卸载之后触发
   async unmount(props: any) {
-      console.log('subAppA unmount ==>', props);
+    console.log('subAppA unmount ==>', props);
   },
 };
 // qiankun-config-end

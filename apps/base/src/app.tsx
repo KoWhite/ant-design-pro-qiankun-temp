@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-11-05 19:24:56
  * @LastEditors: MichLiu
  */
-import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
+import { Footer, Question, AvatarDropdown, AvatarName } from '@/components';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
@@ -53,13 +53,12 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
-
 console.log('base app.tsx');
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
+    actionsRender: () => [<Question key="doc" />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -158,7 +157,6 @@ export function useQiankunStateForSlave() {
   }>({
     slogan: 'Hello MicroFrontend',
   });
-
   return {
     globalState,
     setGlobalState,
@@ -172,23 +170,23 @@ export const qiankun = {
   // 注册子应用信息
   apps: [
     {
-        name: 'sub-recharge',
-        entry: isDev ? '//localhost:8001' : './sub-recharge',
-        // entry: '//localhost:8001',
-        props: {
-            isMenu: true,
-            qianKunProps: {
-              // 开启自动错误捕获
-              autoCaptureError: true,
-              appName: 'Ant-Design-Pro-Main'
-            },
-            // 增加超时时间
-            timeout: 15000,
-            // 开启沙箱模式
-            sandbox: {
-              strictStyleIsolation: true,
-            }
-        }
+      name: 'sub-recharge',
+      entry: isDev ? '//localhost:8001' : './sub-recharge',
+      // entry: '//localhost:8001',
+      props: {
+        isMenu: true,
+        qianKunProps: {
+          // 开启自动错误捕获
+          autoCaptureError: true,
+          appName: 'Ant-Design-Pro-Main',
+        },
+        // 增加超时时间
+        timeout: 15000,
+        // 开启沙箱模式
+        sandbox: {
+          strictStyleIsolation: true,
+        },
+      },
     },
   ],
   lifeCycles: {
@@ -200,6 +198,6 @@ export const qiankun = {
     async beforeUnmount(props: any) {
       console.log('beforeUnmount', props);
     },
-  }
+  },
 };
 // qiankun-config-end
