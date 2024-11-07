@@ -7,6 +7,8 @@ import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
 import { ConfigProvider } from 'antd';
 
+let isMenu = false;
+
 const loginPath = '/user/login';
 
 /**
@@ -51,6 +53,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   const qianKunProp: any = {};
   // 如果是加载在主应用中,不展示菜单和头部
   qianKunProp.headerRender = false;
+  if (!isMenu) {
+    qianKunProp.headerRender = false;
+  }
   // qiankun-config-end
   
   return {
@@ -105,13 +110,16 @@ export const qiankun = {
   async update(props: any) {
     const { theme: themeConfig } = props?.globalState || {};
 
+
+    console.log('theme-------------------', theme);
+
     // 更新子应用主题
-    if (themeConfig) {
-      console.log('sub-recharge update', themeConfig);
-      ConfigProvider.config({
-        theme: themeConfig,
-      });
-    }
+    // if (themeConfig) {
+    //   console.log('sub-recharge update', themeConfig);
+    //   ConfigProvider.config({
+    //     theme: themeConfig,
+    //   });
+    // }
   },
   // 应用卸载之后触发
   async unmount(props: any) {
