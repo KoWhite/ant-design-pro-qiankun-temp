@@ -1,0 +1,39 @@
+.headerSearch {
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s;
+
+  .searchIcon {
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  :global {
+    .ant-input-affix-wrapper {
+      border-radius: 4px;
+      transition: all 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+      width: 100%;
+      opacity: 1;
+    }
+
+    .ant-empty {
+      margin: 16px 0;
+
+      .ant-empty-image {
+        height: 40px;
+        transition: all 0.3s;
+      }
+
+      .ant-empty-description {
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 12px;
+        transition: all 0.3s;
+      }
+    }
+  }
+}

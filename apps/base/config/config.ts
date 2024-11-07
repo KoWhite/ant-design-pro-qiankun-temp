@@ -2,15 +2,22 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:40:53
  * @Description:
- * @LastEditTime: 2024-11-06 17:13:56
+ * @LastEditTime: 2024-11-07 17:09:08
  * @LastEditors: MichLiu
  */
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
+import { theme } from 'antd';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+import Icons from 'unplugin-icons/webpack';
+import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+
 const { REACT_APP_ENV = 'dev' } = process.env;
+const { getDesignToken } = theme;
+const globalToken = getDesignToken();
+
 export default defineConfig({
   /**
    * @name 开启 hash 模式
@@ -29,9 +36,9 @@ export default defineConfig({
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
    * @doc https://umijs.org/docs/api/config#targets
    */
-  // targets: {
-  //   ie: 11,
-  // },
+  targets: {
+    ie: 11,
+  },
   /**
    * @name 路由的配置，不在路由中引入的文件不会编译
    * @description 只支持 path，component，routes，redirect，wrappers，title 的配置
@@ -49,6 +56,9 @@ export default defineConfig({
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     'root-entry-name': 'variable',
+  },
+  lessLoader: {
+    modifyVars: globalToken,
   },
   /**
    * @name moment 的国际化配置
@@ -76,7 +86,7 @@ export default defineConfig({
    */
   model: {},
   /**
-   * 一个全局的初始数据流，可以用它在插件之间共享数据
+   * 个全局的初始数据流，可以用它在插件之间共享数据
    * @description 可以用来存放一些全局的数据，比如用户信息，或者一些全局的状态，全局初始状态在整个 Umi 项目的最开始创建。
    * @doc https://umijs.org/docs/max/data-flow#%E5%85%A8%E5%B1%80%E5%88%9D%E5%A7%8B%E7%8A%B6%E6%80%81
    */
@@ -87,8 +97,13 @@ export default defineConfig({
    */
   title: 'Ant Design Pro',
   layout: {
-    locale: true,
     ...defaultSettings,
+  },
+  plugins: [
+    require.resolve('@umijs/plugins/dist/unocss'),
+  ],
+  unocss: {
+    watch: ['src/**/*.tsx'],
   },
   /**
    * @name moment2dayjs 插件
@@ -100,14 +115,20 @@ export default defineConfig({
     plugins: ['duration'],
   },
   /**
-   * @name 国际化插件
-   * @doc https://umijs.org/docs/max/i18n
-   */ /**
    * @name antd 插件
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-  antd: {},
+  antd: {
+    // 开启暗色主题
+    dark: false,
+    // 开启紧凑主题
+    compact: false,
+    // 配置 configProvider
+    configProvider: {},
+    // 主题相关配置
+    theme: {},
+  },
   /**
    * @name 网络请求配置
    * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络求和错误处理方案。
@@ -133,12 +154,6 @@ export default defineConfig({
   ],
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
-  /**
-   * @name openAPI 插件的配置
-   * @description 基于 openapi 的规范生成serve 和mock，能减少很多样板代码
-   * @doc https://pro.ant.design/zh-cn/docs/openapi/
-   */
-  // openAPI: false,
   // qiankun-config
   // 开启后packages中的组件无法更新
   mfsu: false,
@@ -154,15 +169,23 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/micro-frontend
    */
   qiankun: {
-    master: {
-      //   apps: [
-      //     {
-      //       name: 'sub-recharge',
-      //       entry: '//localhost:8001', // 子应用1的地址
-      //     },
-      //   ],
-      //   sandbox: { strictStyleIsolation: true }, // 开启严格的样式隔离
-    },
+    master: {},
   },
   // qiankun-config-end
+  chainWebpack: (config) => {
+    // 配置 unplugin-icons
+    config.plugin('unplugin-icons').use(Icons({
+      compiler: 'jsx',
+      jsx: 'react',
+      autoInstall: true,
+
+      // 自定义图标
+      customCollections: {
+        // 加载本地 svg 文件
+        local: FileSystemIconLoader('./src/assets/icons', svg =>
+          svg.replace(/^<svg /, '<svg fill="currentColor" ')
+        ),
+      },
+    }));
+  },
 });

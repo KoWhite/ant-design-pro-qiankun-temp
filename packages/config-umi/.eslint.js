@@ -2,7 +2,7 @@
  * @Author: MichLiu
  * @Date: 2024-11-05 10:15:14
  * @Description: 
- * @LastEditTime: 2024-11-06 17:28:02
+ * @LastEditTime: 2024-11-07 11:40:13
  * @LastEditors: MichLiu
  */
 module.exports = {
@@ -16,42 +16,5 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-empty-interface": 0,
     "no-param-reassign": 0,
-    "import/order": [
-      "error",
-      {
-        //按照分组顺序进行排序
-        "groups": ["builtin", "external", "parent", "sibling", "index", "internal", "object", "type"],
-        //通过路径自定义分组
-        "pathGroups": [
-          {
-            "pattern": "react*",
-            "group": "builtin",
-            "position": "before"
-          },
-          {
-            "pattern": "@/components/**",
-            "group": "parent",
-            "position": "before"
-          },
-          {
-            "pattern": "@/utils/**",
-            "group": "parent",
-            "position": "after"
-          },
-          {
-            "pattern": "@/apis/**",
-            "group": "parent",
-            "position": "after"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "newlines-between": "always", //每个分组之间换行
-        //根据字母顺序对每个组内的顺序进行排序
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ]
   },
 };

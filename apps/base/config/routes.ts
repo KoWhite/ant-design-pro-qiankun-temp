@@ -1,12 +1,6 @@
+import routesChild from './routes.child';
+
 export default [
-  {
-    name: '充值中心',
-    icon: 'smile',
-    path: '/sub-recharge/*',
-    microApp: 'sub-recharge',
-    layout: { hideMenu: false, hideNav: false, hideFooter: true },
-    microAppProps: { autoSetLoading: true },
-  },
   {
     path: '/user',
     layout: false,
@@ -20,6 +14,9 @@ export default [
     menuHeaderRender: false,
     layout: {},
   },
+
+  // 子应用栏目
+  ...routesChild,
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];

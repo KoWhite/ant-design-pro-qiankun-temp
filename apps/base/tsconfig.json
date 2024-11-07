@@ -5,7 +5,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@@/*": ["./src/.umi/*"]
-    }
+    },
+    "types": [
+      "unplugin-icons/types/react",
+    ]
   },
-  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", "src/pages/login"]
+  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", "src/pages/login"],
 }

@@ -1,19 +1,13 @@
-import { Footer, Question, AvatarDropdown, AvatarName } from '@/components';
-import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link } from '@umijs/max';
+import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
-const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+import { ConfigProvider } from 'antd';
 
-// qiankun-config
-let isMenu = true; // 设置一个变量,判断是否需要展示layout
-// qiankun-config-end
+const loginPath = '/user/login';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -50,7 +44,6 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
-console.log('sub-recharge app.tsx');
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
@@ -58,60 +51,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   const qianKunProp: any = {};
   // 如果是加载在主应用中,不展示菜单和头部
   qianKunProp.headerRender = false;
-  if (!isMenu) {
-    qianKunProp.menuRender = false;
-    qianKunProp.headerRender = false;
-  }
   // qiankun-config-end
-
+  
   return {
-    actionsRender: () => [<Question key="doc" />],
-    avatarProps: {
-      src: initialState?.currentUser?.avatar,
-      title: <AvatarName />,
-      render: (_, avatarChildren) => {
-        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
-      },
-    },
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
-    footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
-    bgLayoutImgList: [
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
-        left: 85,
-        bottom: 100,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr',
-        bottom: -68,
-        right: -45,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr',
-        bottom: 0,
-        left: 0,
-        width: '331px',
-      },
-    ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
@@ -122,7 +64,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       // 子应用不需要展示配置主题的按钮，主题配置通过主应用统一配置
-
       return (
         <>
           {children}
@@ -148,18 +89,33 @@ export const request = {
 export const qiankun = {
   // 应用加载之前
   async bootstrap(props: any) {
-    console.log('subAppA bootstrap ==>', props);
-    if (props) {
-      isMenu = props.isMenu;
-    }
+    console.log('sub-recharge bootstrap', props);
   },
   // 应用 render 之前触发
   async mount(props: any) {
-    console.log('subAppA mount ==>', props);
+    const { theme: themeConfig } = props?.globalState || {};
+    
+    // 设置子应用主题
+    if (themeConfig) {
+      ConfigProvider.config({
+        theme: themeConfig,
+      });
+    }
+  },
+  async update(props: any) {
+    const { theme: themeConfig } = props?.globalState || {};
+
+    // 更新子应用主题
+    if (themeConfig) {
+      console.log('sub-recharge update', themeConfig);
+      ConfigProvider.config({
+        theme: themeConfig,
+      });
+    }
   },
   // 应用卸载之后触发
   async unmount(props: any) {
-    console.log('subAppA unmount ==>', props);
+    console.log('sub-recharge unmount', props);
   },
 };
 // qiankun-config-end

@@ -2,19 +2,25 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:41:00
  * @Description:
- * @LastEditTime: 2024-11-05 19:24:56
+ * @LastEditTime: 2024-11-07 17:47:27
  * @LastEditors: MichLiu
  */
-import { Footer, Question, AvatarDropdown, AvatarName } from '@/components';
-import { LinkOutlined } from '@ant-design/icons';
+import { Footer, AvatarDropdown, AvatarName } from '@/components';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link, RequestConfig } from '@umijs/max';
+import { history, RequestConfig, useAntdConfig } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React, { useState } from 'react';
+import NProgress from '@/components/Nprogress';
+import SearchRoute from '@/components/RightContent/SearchRoute';
+import routes from '../config/routes';
+import ThemeSwitch from '@/components/ThemeSwitch';
+import { theme } from 'antd';
+const { defaultAlgorithm } = theme;
+
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -53,12 +59,11 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
-console.log('base app.tsx');
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    actionsRender: () => [<Question key="doc" />],
+    actionsRender: () => [<SearchRoute routes={routes} key="searchRoute" />, <ThemeSwitch key="themeSwitch" />],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
@@ -66,16 +71,24 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
+    // 内容区样式
+    contentStyle: {
+      padding: 0,
     },
-    footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+      // 开启路由切换进度条
+      if (location?.pathname !== '/user/login') {
+        NProgress.start();
+      }
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
+      // 延时关闭
+      setTimeout(() => {
+        NProgress.done();
+      }, 300);
     },
     bgLayoutImgList: [
       {
@@ -97,14 +110,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         width: '331px',
       },
     ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
@@ -134,7 +139,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
-// console.log('base request');
 /**
  * @name request 配置，可以配置错误处理
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
@@ -152,11 +156,14 @@ export const request: RequestConfig = {
  */
 export function useQiankunStateForSlave() {
   const [globalState, setGlobalState] = useState<{
-    slogan: string;
+    theme?: any;
     [key: string]: any;
   }>({
-    slogan: 'Hello MicroFrontend',
+    theme: {
+      algorithm: [defaultAlgorithm],
+    },
   });
+
   return {
     globalState,
     setGlobalState,
@@ -164,27 +171,18 @@ export function useQiankunStateForSlave() {
 }
 
 /**
- * qiankun
+ * qiankun 配置
  */
 export const qiankun = {
-  // 注册子应用信息
   apps: [
     {
       name: 'sub-recharge',
       entry: isDev ? '//localhost:8001' : './sub-recharge',
-      // entry: '//localhost:8001',
       props: {
         isMenu: true,
         qianKunProps: {
-          // 开启自动错误捕获
           autoCaptureError: true,
           appName: 'Ant-Design-Pro-Main',
-        },
-        // 增加超时时间
-        timeout: 15000,
-        // 开启沙箱模式
-        sandbox: {
-          strictStyleIsolation: true,
         },
       },
     },
