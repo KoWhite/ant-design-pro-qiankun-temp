@@ -12,7 +12,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "clean": "bash ./commands/clean.sh"
+    "clean": "start ./commands/clean.sh"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",

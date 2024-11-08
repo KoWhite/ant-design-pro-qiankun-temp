@@ -2,7 +2,7 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:41:00
  * @Description:
- * @LastEditTime: 2024-11-07 17:47:27
+ * @LastEditTime: 2024-11-08 13:35:21
  * @LastEditors: MichLiu
  */
 import { Footer, AvatarDropdown, AvatarName } from '@/components';
@@ -179,7 +179,7 @@ export const qiankun = {
       name: 'sub-recharge',
       entry: isDev ? '//localhost:8001' : './sub-recharge',
       props: {
-        isMenu: true,
+        isMenu: false,
         qianKunProps: {
           autoCaptureError: true,
           appName: 'Ant-Design-Pro-Main',

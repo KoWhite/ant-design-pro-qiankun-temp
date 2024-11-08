@@ -57,7 +57,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     qianKunProp.headerRender = false;
   }
   // qiankun-config-end
-  
+
   return {
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -99,7 +99,7 @@ export const qiankun = {
   // 应用 render 之前触发
   async mount(props: any) {
     const { theme: themeConfig } = props?.globalState || {};
-    
+
     // 设置子应用主题
     if (themeConfig) {
       ConfigProvider.config({
@@ -108,11 +108,6 @@ export const qiankun = {
     }
   },
   async update(props: any) {
-    const { theme: themeConfig } = props?.globalState || {};
-
-
-    console.log('theme-------------------', theme);
-
     // 更新子应用主题
     // if (themeConfig) {
     //   console.log('sub-recharge update', themeConfig);
