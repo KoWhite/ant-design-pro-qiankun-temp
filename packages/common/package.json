@@ -17,19 +17,27 @@
     "antd": "^5.4.0",
     "lodash-es": "^4.17.21",
     "querystring": "^0.2.1",
-    "classnames": "^2.5.1"
+    "nprogress": "^0.2.0",
+    "classnames": "^2.5.1",
+    "antd-style": "^3.6.1",
+    "rc-menu": "^9.12.4"
   },
   "devDependencies": {
     "@pkg/config-umi": "workspace:*",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "@types/classnames": "^2.3.1",
+    "@types/nprogress": "^0.2.0",
+    "@iconify-json/mdi": "^1.2.1",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
     "eslint": "^8.56.0",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.7",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-packagejson": "^2.4.3",
     "typescript": "^5.0.3",
-    "umi-presets-pro": "^2.0.2"
+    "umi-presets-pro": "^2.0.2",
+    "unplugin-icons": "^0.20.1"
   }
 }
