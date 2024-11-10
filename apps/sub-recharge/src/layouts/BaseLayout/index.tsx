@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ProLayoutProps } from '@ant-design/pro-components';
-import { MicroLayout, isQiankun } from '@pkg/common';
+import { Outlet, useAntdConfigSetter, useModel } from '@umijs/max';
 
 const BasicLayout: React.FC<ProLayoutProps> = () => {
-  return <MicroLayout pure={isQiankun()} />;
+  const setAntdConfig = useAntdConfigSetter();
+
+  const masterProps = useModel('@@qiankunStateFromMaster');
+
+  useEffect(() => {
+    // 更新主应用主题
+    setAntdConfig({
+      theme: {
+        algorithm: masterProps?.globalState.theme?.algorithm,
+      },
+    });
+  }, [masterProps.globalState]);
+
+  return <>
+    <Outlet />
+  </>;
 };
 
 export default BasicLayout;

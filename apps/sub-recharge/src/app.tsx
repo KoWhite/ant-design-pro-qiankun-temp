@@ -6,6 +6,7 @@ import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
 import { ConfigProvider } from 'antd';
+import BaseLayout from '@/layouts/BaseLayout';
 
 let isMenu = false;
 
@@ -71,7 +72,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 子应用不需要展示配置主题的按钮，主题配置通过主应用统一配置
       return (
         <>
-          {children}
+          <BaseLayout>{children}</BaseLayout>
         </>
       );
     },
@@ -98,23 +99,10 @@ export const qiankun = {
   },
   // 应用 render 之前触发
   async mount(props: any) {
-    const { theme: themeConfig } = props?.globalState || {};
-
-    // 设置子应用主题
-    if (themeConfig) {
-      ConfigProvider.config({
-        theme: themeConfig,
-      });
-    }
+    console.log('sub-recharge mount', props);
   },
   async update(props: any) {
-    // 更新子应用主题
-    // if (themeConfig) {
-    //   console.log('sub-recharge update', themeConfig);
-    //   ConfigProvider.config({
-    //     theme: themeConfig,
-    //   });
-    // }
+    console.log('sub-recharge update', props);
   },
   // 应用卸载之后触发
   async unmount(props: any) {
