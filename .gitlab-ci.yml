@@ -12,19 +12,20 @@ cache:
     - node_modules/
     - apps/*/node_modules/
     - .turbo
-    - .pnpm-store
 
 # 安装依赖
 install:
   stage: install
   script:
+    - pnpm config set registry https://registry.npmmirror.com
     - pnpm install
 
 # 清理构建目录
 clean:
   stage: clean
   script:
-    - rm -rf /dist
+    # 先清除dist文件夹的内容
+    - rm -rf /dist/*
   needs:
     - install
 
@@ -43,6 +44,8 @@ deploy-base:
     - scp -r apps/base/dist/* user@host1:/path/to/base/
   only:
     changes:
+      # 当apps或者packages里面的文件变更才会执行部署到服务器
       - apps/**/*
+      - packages/**/*
   needs:
     - build-all

@@ -11,6 +11,11 @@ const { REACT_APP_ENV = 'dev' } = process.env;
 const { getDesignToken } = theme;
 const globalToken = getDesignToken();
 
+// 从 sessionStorage 获取主题模式
+const isDarkMode = typeof window !== 'undefined'
+  ? sessionStorage.getItem('theme') === 'dark'
+  : false;
+
 export default defineConfig({
   /**
    * @name 开启 hash 模式
@@ -113,15 +118,14 @@ export default defineConfig({
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-   antd: {
-    // 开启暗色主题
-    dark: false,
+  antd: {
+    // 从 sessionStorage 读取暗色主题配置
+    dark: isDarkMode,
     // 开启紧凑主题
     compact: false,
     // 配置 configProvider
-    configProvider: {},
-    // 主题相关配置
-    theme: {},
+    configProvider: {
+    },
   },
   /**
    * @name 网络请求配置
