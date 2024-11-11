@@ -51,3 +51,29 @@ ol {
     }
   }
 }
+
+// 优化proLayout的滚动条
+.ant-layout-sider-children {
+  ::-webkit-scrollbar {
+    width: 3px !important;
+  }
+
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+}
