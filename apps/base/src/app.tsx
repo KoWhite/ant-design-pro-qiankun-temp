@@ -2,7 +2,7 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:41:00
  * @Description:
- * @LastEditTime: 2024-11-08 13:35:21
+ * @LastEditTime: 2024-11-11 09:35:16
  * @LastEditors: MichLiu
  */
 import { Footer, AvatarDropdown, AvatarName } from '@/components';
@@ -177,7 +177,7 @@ export const qiankun = {
   apps: [
     {
       name: 'sub-recharge',
-      entry: isDev ? '//localhost:8001' : './sub-recharge',
+      entry: isDev ? '//localhost:8001' : './sub-recharge/',
       props: {
         isMenu: false,
         qianKunProps: {

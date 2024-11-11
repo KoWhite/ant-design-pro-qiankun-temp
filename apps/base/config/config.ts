@@ -2,7 +2,7 @@
  * @Author: MichLiu
  * @Date: 2024-11-04 14:40:53
  * @Description:
- * @LastEditTime: 2024-11-07 17:09:08
+ * @LastEditTime: 2024-11-11 09:22:13
  * @LastEditors: MichLiu
  */
 // https://umijs.org/config/
@@ -36,9 +36,9 @@ export default defineConfig({
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
    * @doc https://umijs.org/docs/api/config#targets
    */
-  targets: {
-    ie: 11,
-  },
+  // targets: {
+  //   ie: 11,
+  // },
   /**
    * @name 路由的配置，不在路由中引入的文件不会编译
    * @description 只支持 path，component，routes，redirect，wrappers，title 的配置

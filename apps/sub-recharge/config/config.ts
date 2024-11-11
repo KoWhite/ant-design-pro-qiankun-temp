@@ -21,6 +21,7 @@ export default defineConfig({
   outputPath: '../../dist/sub-recharge',
   // 路径
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  base: '/',
   history: {
     type: 'hash', // 使用 hash 路由模式
   },
@@ -29,9 +30,9 @@ export default defineConfig({
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
    * @doc https://umijs.org/docs/api/config#targets
    */
-  targets: {
-    ie: 11,
-  },
+  // targets: {
+  //   ie: 11,
+  // },
   /**
    * @name 路由的配置，不在路由中引入的文件不会编译
    * @description 只支持 path，component，routes，redirect，wrappers，title 的配置
@@ -141,7 +142,7 @@ export default defineConfig({
   headScripts: [
     // 解决首次加载时白屏的问题
     {
-      src: '/scripts/loading.js',
+      src: './scripts/loading.js',
       async: true,
     },
   ],
@@ -149,7 +150,6 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
-  base: '/',
   qiankun: {
     slave: {},
   },
